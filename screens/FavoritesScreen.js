@@ -12,6 +12,7 @@ import Loading from "../components/LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { toggleFavorite } from "../features/favorites/favoritesSlice";
+import * as Animatable from "react-native-animatable";
 
 const FavoritesScreen = ({ navigation }) => {
   const { campsitesArray, isLoading, errMess } = useSelector(
@@ -52,12 +53,14 @@ const FavoritesScreen = ({ navigation }) => {
         </View>
         <View>
           <ListItem
-            onPress={() =>
-              navigation.navigate("Directory", {
-                screen: "CampsiteInfo",
-                params: { campsite },
-              })
-            }
+            // onPress={() =>
+            //   navigation.navigate("Directory", {
+            //     screen: "CampsiteInfo",
+            //     params: { campsite },
+            //   })
+            // }
+            // Changed the code so that the campsiteinfo screen navigates back to Favorites.
+            onPress={() => navigation.navigate("CampsiteInfo", { campsite })}
           >
             <Avatar rounded source={{ uri: baseUrl + campsite.image }} />
             <ListItem.Content>
@@ -81,13 +84,15 @@ const FavoritesScreen = ({ navigation }) => {
     );
   }
   return (
-    <FlatList
-      data={campsitesArray.filter((campsite) =>
-        favorites.includes(campsite.id)
-      )}
-      renderItem={renderFavoriteItem}
-      keyExtractor={(item) => item.id.toString()}
-    />
+    <Animatable.View animation="fadeInRightBig" duration={2000}>
+      <FlatList
+        data={campsitesArray.filter((campsite) =>
+          favorites.includes(campsite.id)
+        )}
+        renderItem={renderFavoriteItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </Animatable.View>
   );
 };
 

@@ -139,6 +139,13 @@ const FavoritesNavigator = () => {
           ),
         })}
       />
+      <Stack.Screen
+        name="CampsiteInfo"
+        component={CampsiteInfoScreen}
+        options={({ route }) => ({
+          title: route.params.campsite.name,
+        })}
+      />
     </Stack.Navigator>
   );
 };
